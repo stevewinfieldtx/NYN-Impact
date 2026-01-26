@@ -36,7 +36,7 @@
         "name": "NYN Impact",
         "alternateName": "Not Your Normal Impact",
         "url": "https://nynimpact.com",
-        "logo": "https://nynimpact.com/logo.png",
+        "logo": "https://nynimpact.com/logo.jpg",
         "email": "Info@NYNimpact.com",
         "description": "NYN Impact delivers bespoke AI-powered automation and marketing solutions. Founded by a former Texas educator with 25+ years of technology experience across 41 countries.",
         "founder": {
@@ -206,15 +206,8 @@
             --glow-purple: 0 0 60px rgba(168, 85, 247, 0.5), 0 0 120px rgba(168, 85, 247, 0.3);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Syne', sans-serif;
@@ -228,10 +221,8 @@
         /* Animated Gradient Background */
         .gradient-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: 0;
             background: var(--bg-dark);
             overflow: hidden;
@@ -246,77 +237,54 @@
         }
 
         .orb-1 {
-            width: 600px;
-            height: 600px;
+            width: 600px; height: 600px;
             background: radial-gradient(circle, var(--accent-cyan) 0%, transparent 70%);
-            top: -200px;
-            right: -100px;
-            animation-delay: 0s;
+            top: -200px; right: -100px;
         }
 
         .orb-2 {
-            width: 500px;
-            height: 500px;
+            width: 500px; height: 500px;
             background: radial-gradient(circle, var(--accent-purple) 0%, transparent 70%);
-            bottom: -150px;
-            left: -100px;
+            bottom: -150px; left: -100px;
             animation-delay: -7s;
         }
 
         .orb-3 {
-            width: 400px;
-            height: 400px;
+            width: 400px; height: 400px;
             background: radial-gradient(circle, var(--accent-violet) 0%, transparent 70%);
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             animation-delay: -14s;
         }
 
         .orb-4 {
-            width: 300px;
-            height: 300px;
+            width: 300px; height: 300px;
             background: radial-gradient(circle, var(--accent-indigo) 0%, transparent 70%);
-            top: 20%;
-            left: 10%;
+            top: 20%; left: 10%;
             animation-delay: -3s;
         }
 
         @keyframes float {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
-            }
-            25% {
-                transform: translate(50px, -80px) scale(1.1);
-            }
-            50% {
-                transform: translate(-30px, 50px) scale(0.9);
-            }
-            75% {
-                transform: translate(80px, 30px) scale(1.05);
-            }
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -80px) scale(1.1); }
+            50% { transform: translate(-30px, 50px) scale(0.9); }
+            75% { transform: translate(80px, 30px) scale(1.05); }
         }
 
-        /* Noise Overlay */
         .noise {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: 1;
             pointer-events: none;
             opacity: 0.03;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
         }
 
-        /* Grid Lines */
         .grid-lines {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: 1;
             pointer-events: none;
             background-image: 
@@ -325,38 +293,24 @@
             background-size: 80px 80px;
         }
 
-        /* Main Content */
-        .content {
-            position: relative;
-            z-index: 2;
-            min-height: 100vh;
-        }
+        .content { position: relative; z-index: 2; min-height: 100vh; }
 
         /* Navigation */
         nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 2rem 4rem;
+            top: 0; left: 0; right: 0;
+            padding: 1.5rem 4rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            background: linear-gradient(to bottom, rgba(10,10,15,0.9) 0%, transparent 100%);
+            background: linear-gradient(to bottom, rgba(10,10,15,0.95) 0%, transparent 100%);
         }
 
-        .logo {
-            font-family: 'Anybody', sans-serif;
-            font-weight: 900;
-            font-size: 1.8rem;
-            letter-spacing: -0.02em;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: var(--glow-cyan);
-        }
+        .logo { display: flex; align-items: center; text-decoration: none; }
+        .logo-img { height: 50px; width: auto; object-fit: contain; }
+
+        .nav-right { display: flex; align-items: center; gap: 1.5rem; }
 
         .nav-contact {
             padding: 0.8rem 2rem;
@@ -377,10 +331,8 @@
         .nav-contact::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(0,245,255,0.3), transparent);
             transition: left 0.5s;
         }
@@ -390,9 +342,81 @@
             box-shadow: 0 0 30px rgba(0,245,255,0.3);
         }
 
-        .nav-contact:hover::before {
-            left: 100%;
+        .nav-contact:hover::before { left: 100%; }
+
+        /* Language Picker */
+        .language-picker { position: relative; }
+
+        .language-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted);
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
+
+        .language-btn:hover {
+            border-color: rgba(255,255,255,0.2);
+            color: var(--text-primary);
+        }
+
+        .language-btn .chevron { transition: transform 0.3s ease; }
+        .language-picker.open .language-btn .chevron { transform: rotate(180deg); }
+
+        .language-dropdown {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            min-width: 200px;
+            background: var(--bg-darker);
+            border: 1px solid rgba(255,255,255,0.1);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 200;
+        }
+
+        .language-picker.open .language-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 0.85rem 1.25rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: 'Syne', sans-serif;
+            font-size: 0.9rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .lang-option:hover {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-primary);
+        }
+
+        .lang-option.active {
+            background: rgba(168,85,247,0.1);
+            color: var(--accent-cyan);
+        }
+
+        .lang-flag { font-size: 1.2rem; }
 
         /* Hero Section */
         .hero {
@@ -423,8 +447,7 @@
         }
 
         .badge-dot {
-            width: 8px;
-            height: 8px;
+            width: 8px; height: 8px;
             background: var(--accent-cyan);
             border-radius: 50%;
             animation: pulse 2s ease-in-out infinite;
@@ -446,10 +469,7 @@
             animation: fadeInUp 1s ease-out 0.4s both;
         }
 
-        .hero-title .line-1 {
-            display: block;
-            color: var(--text-primary);
-        }
+        .hero-title .line-1 { display: block; color: var(--text-primary); }
 
         .hero-title .line-2 {
             display: block;
@@ -475,10 +495,7 @@
             animation: fadeInUp 1s ease-out 0.6s both;
         }
 
-        .hero-subtitle strong {
-            color: var(--text-primary);
-            font-weight: 600;
-        }
+        .hero-subtitle strong { color: var(--text-primary); font-weight: 600; }
 
         .cta-group {
             display: flex;
@@ -500,8 +517,6 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
@@ -531,17 +546,10 @@
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Scroll Indicator */
         .scroll-indicator {
             position: absolute;
             bottom: 1.5rem;
@@ -560,8 +568,7 @@
         }
 
         .scroll-line {
-            width: 1px;
-            height: 60px;
+            width: 1px; height: 60px;
             background: linear-gradient(to bottom, var(--accent-cyan), transparent);
             animation: scrollPulse 2s ease-in-out infinite;
         }
@@ -572,10 +579,7 @@
         }
 
         /* Philosophy Section */
-        .philosophy {
-            padding: 10rem 4rem;
-            position: relative;
-        }
+        .philosophy { padding: 10rem 4rem; position: relative; }
 
         .section-label {
             font-size: 0.8rem;
@@ -590,8 +594,7 @@
 
         .section-label::before {
             content: '';
-            width: 40px;
-            height: 1px;
+            width: 40px; height: 1px;
             background: var(--accent-cyan);
         }
 
@@ -641,25 +644,9 @@
             animation: rotate 30s linear infinite;
         }
 
-        .ring-1 {
-            width: 300px;
-            height: 300px;
-            border-color: rgba(0,245,255,0.3);
-        }
-
-        .ring-2 {
-            width: 400px;
-            height: 400px;
-            animation-direction: reverse;
-            animation-duration: 40s;
-        }
-
-        .ring-3 {
-            width: 500px;
-            height: 500px;
-            border-color: rgba(168,85,247,0.2);
-            animation-duration: 50s;
-        }
+        .ring-1 { width: 300px; height: 300px; border-color: rgba(0,245,255,0.3); }
+        .ring-2 { width: 400px; height: 400px; animation-direction: reverse; animation-duration: 40s; }
+        .ring-3 { width: 500px; height: 500px; border-color: rgba(168,85,247,0.2); animation-duration: 50s; }
 
         @keyframes rotate {
             from { transform: rotate(0deg); }
@@ -667,8 +654,7 @@
         }
 
         .visual-center {
-            width: 120px;
-            height: 120px;
+            width: 120px; height: 120px;
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
             border-radius: 50%;
             display: flex;
@@ -726,9 +712,7 @@
         .value-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 2px;
             background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
             transform: scaleX(0);
@@ -741,9 +725,7 @@
             transform: translateY(-5px);
         }
 
-        .value-card:hover::before {
-            transform: scaleX(1);
-        }
+        .value-card:hover::before { transform: scaleX(1); }
 
         .value-number {
             font-family: 'Anybody', sans-serif;
@@ -771,18 +753,8 @@
             color: var(--text-muted);
         }
 
-        /* Tagline Section */
-        .tagline-section {
-            padding: 12rem 4rem;
-            text-align: center;
-            position: relative;
-        }
-
         /* Process Section */
-        .process-section {
-            padding: 10rem 4rem;
-            position: relative;
-        }
+        .process-section { padding: 10rem 4rem; position: relative; }
 
         .process-header {
             text-align: center;
@@ -819,8 +791,7 @@
         .process-line {
             position: absolute;
             left: 40px;
-            top: 0;
-            bottom: 0;
+            top: 0; bottom: 0;
             width: 2px;
             background: linear-gradient(to bottom, var(--accent-cyan), var(--accent-purple), var(--accent-violet));
             opacity: 0.3;
@@ -844,8 +815,7 @@
             font-family: 'Anybody', sans-serif;
             font-weight: 900;
             font-size: 1.5rem;
-            width: 80px;
-            height: 80px;
+            width: 80px; height: 80px;
             min-width: 80px;
             background: var(--bg-dark);
             border: 2px solid rgba(255,255,255,0.1);
@@ -863,10 +833,7 @@
             background: linear-gradient(135deg, rgba(0,245,255,0.1), rgba(168,85,247,0.1));
         }
 
-        .step-content {
-            flex: 1;
-            padding-top: 0.5rem;
-        }
+        .step-content { flex: 1; padding-top: 0.5rem; }
 
         .step-content h3 {
             font-family: 'Syne', sans-serif;
@@ -877,9 +844,7 @@
             transition: color 0.3s ease;
         }
 
-        .process-step:hover .step-content h3 {
-            color: var(--accent-cyan);
-        }
+        .process-step:hover .step-content h3 { color: var(--accent-cyan); }
 
         .step-content p {
             font-size: 1rem;
@@ -887,28 +852,8 @@
             line-height: 1.6;
         }
 
-        @media (max-width: 768px) {
-            .process-section {
-                padding: 6rem 2rem;
-            }
-
-            .process-line {
-                left: 30px;
-            }
-
-            .step-number {
-                width: 60px;
-                height: 60px;
-                min-width: 60px;
-                font-size: 1.2rem;
-            }
-
-            .process-step {
-                gap: 1.5rem;
-            }
-        }
-
         /* Tagline Section */
+        .tagline-section { padding: 12rem 4rem; text-align: center; position: relative; }
 
         .tagline-large {
             font-family: 'Anybody', sans-serif;
@@ -924,7 +869,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            position: relative;
         }
 
         .tagline-large .word-automation {
@@ -965,8 +909,7 @@
         }
 
         .advantage-icon {
-            width: 200px;
-            height: 200px;
+            width: 200px; height: 200px;
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 50%;
@@ -986,12 +929,7 @@
             filter: blur(20px);
         }
 
-        .advantage-icon svg {
-            width: 100px;
-            height: 100px;
-            position: relative;
-            z-index: 1;
-        }
+        .advantage-icon svg { width: 100px; height: 100px; position: relative; z-index: 1; }
 
         .advantage-stats {
             display: flex;
@@ -1056,9 +994,7 @@
             margin-bottom: 1.25rem;
         }
 
-        .advantage-text p strong {
-            color: var(--text-primary);
-        }
+        .advantage-text p strong { color: var(--text-primary); }
 
         .advantage-quote {
             margin-top: 2rem;
@@ -1069,7 +1005,6 @@
             color: var(--text-muted);
             font-size: 1.1rem;
             line-height: 1.7;
-            position: relative;
         }
 
         .quote-mark {
@@ -1079,13 +1014,6 @@
             opacity: 0.5;
             line-height: 0;
             vertical-align: middle;
-        }
-
-        /* Contact Section */
-        .contact-section {
-            padding: 10rem 4rem;
-            background: var(--bg-darker);
-            position: relative;
         }
 
         /* FAQ Section */
@@ -1128,9 +1056,7 @@
             transition: all 0.3s ease;
         }
 
-        .faq-item:hover {
-            border-color: rgba(255,255,255,0.1);
-        }
+        .faq-item:hover { border-color: rgba(255,255,255,0.1); }
 
         .faq-item.active {
             border-color: var(--accent-purple);
@@ -1155,9 +1081,7 @@
             transition: all 0.3s ease;
         }
 
-        .faq-question:hover {
-            color: var(--accent-cyan);
-        }
+        .faq-question:hover { color: var(--accent-cyan); }
 
         .faq-icon {
             min-width: 24px;
@@ -1165,9 +1089,7 @@
             color: var(--accent-purple);
         }
 
-        .faq-item.active .faq-icon {
-            transform: rotate(45deg);
-        }
+        .faq-item.active .faq-icon { transform: rotate(45deg); }
 
         .faq-answer {
             max-height: 0;
@@ -1186,27 +1108,17 @@
             line-height: 1.7;
         }
 
-        @media (max-width: 768px) {
-            .faq-section {
-                padding: 6rem 2rem;
-            }
-
-            .faq-question {
-                padding: 1.25rem 1.5rem;
-                font-size: 1rem;
-            }
-
-            .faq-item.active .faq-answer {
-                padding: 0 1.5rem 1.25rem;
-            }
+        /* Contact Section */
+        .contact-section {
+            padding: 10rem 4rem;
+            background: var(--bg-darker);
+            position: relative;
         }
 
         .contact-section::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 1px;
             background: linear-gradient(90deg, transparent, var(--accent-purple), transparent);
         }
@@ -1255,8 +1167,7 @@
         }
 
         .contact-icon {
-            width: 48px;
-            height: 48px;
+            width: 48px; height: 48px;
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 12px;
@@ -1312,9 +1223,7 @@
         }
 
         .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: rgba(255,255,255,0.3);
-        }
+        .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
 
         .form-group input:focus,
         .form-group textarea:focus {
@@ -1351,50 +1260,8 @@
             box-shadow: 0 20px 40px rgba(0,245,255,0.3), 0 0 60px rgba(168,85,247,0.3);
         }
 
-        .form-submit svg {
-            transition: transform 0.3s ease;
-        }
-
-        .form-submit:hover svg {
-            transform: translateX(4px) translateY(-4px);
-        }
-
-        /* Responsive for new sections */
-        @media (max-width: 1024px) {
-            .advantage-content {
-                grid-template-columns: 1fr;
-                gap: 4rem;
-            }
-
-            .advantage-visual {
-                order: 2;
-            }
-
-            .contact-container {
-                grid-template-columns: 1fr;
-                gap: 4rem;
-            }
-
-            .advantage-section,
-            .contact-section {
-                padding: 6rem 2rem;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .advantage-stats {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .stat-item {
-                width: 100%;
-            }
-
-            .contact-form-wrapper {
-                padding: 2rem 1.5rem;
-            }
-        }
+        .form-submit svg { transition: transform 0.3s ease; }
+        .form-submit:hover svg { transform: translateX(4px) translateY(-4px); }
 
         /* Footer */
         footer {
@@ -1405,69 +1272,44 @@
             align-items: center;
         }
 
-        .footer-logo {
-            font-family: 'Anybody', sans-serif;
-            font-weight: 900;
-            font-size: 1.2rem;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .footer-text {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
+        .footer-logo { display: flex; align-items: center; text-decoration: none; }
+        .footer-logo-img { height: 40px; width: auto; object-fit: contain; }
+        .footer-text { color: var(--text-muted); font-size: 0.9rem; }
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .philosophy-content {
-                grid-template-columns: 1fr;
-                gap: 4rem;
-            }
+            .philosophy-content, .advantage-content, .contact-container { grid-template-columns: 1fr; gap: 4rem; }
+            .philosophy-visual { height: 400px; }
+            .values-grid { grid-template-columns: 1fr; }
+            nav { padding: 1.5rem 2rem; }
+            .philosophy, .values, .tagline-section, .advantage-section, .contact-section { padding-left: 2rem; padding-right: 2rem; }
+            .advantage-visual { order: 2; }
+        }
 
-            .philosophy-visual {
-                height: 400px;
-            }
-
-            .values-grid {
-                grid-template-columns: 1fr;
-            }
-
-            nav {
-                padding: 1.5rem 2rem;
-            }
-
-            .philosophy, .values, .tagline-section {
-                padding-left: 2rem;
-                padding-right: 2rem;
-            }
+        @media (max-width: 768px) {
+            .process-section, .faq-section { padding: 6rem 2rem; }
+            .process-line { left: 30px; }
+            .step-number { width: 60px; height: 60px; min-width: 60px; font-size: 1.2rem; }
+            .process-step { gap: 1.5rem; }
+            .faq-question { padding: 1.25rem 1.5rem; font-size: 1rem; }
+            .faq-item.active .faq-answer { padding: 0 1.5rem 1.25rem; }
+            .nav-right { gap: 1rem; }
         }
 
         @media (max-width: 640px) {
-            .cta-group {
-                flex-direction: column;
-                width: 100%;
-                padding: 0 1rem;
-            }
-
-            .cta-primary, .cta-secondary {
-                width: 100%;
-            }
-
-            footer {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
+            .cta-group { flex-direction: column; width: 100%; padding: 0 1rem; }
+            .cta-primary, .cta-secondary { width: 100%; }
+            footer { flex-direction: column; gap: 1rem; text-align: center; }
+            .advantage-stats { flex-direction: column; width: 100%; }
+            .stat-item { width: 100%; }
+            .contact-form-wrapper { padding: 2rem 1.5rem; }
+            .nav-right { gap: 0.75rem; }
+            .nav-contact { padding: 0.6rem 1rem; font-size: 0.8rem; }
         }
 
-        /* Floating particles */
         .particle {
             position: fixed;
-            width: 4px;
-            height: 4px;
+            width: 4px; height: 4px;
             background: var(--accent-cyan);
             border-radius: 50%;
             pointer-events: none;
@@ -1477,25 +1319,14 @@
         }
 
         @keyframes floatParticle {
-            0% {
-                transform: translateY(100vh) translateX(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.5;
-            }
-            90% {
-                opacity: 0.5;
-            }
-            100% {
-                transform: translateY(-100px) translateX(100px);
-                opacity: 0;
-            }
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-100px) translateX(100px); opacity: 0; }
         }
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
     <div class="gradient-bg">
         <div class="gradient-orb orb-1"></div>
         <div class="gradient-orb orb-2"></div>
@@ -1505,7 +1336,6 @@
     <div class="noise"></div>
     <div class="grid-lines"></div>
 
-    <!-- Floating Particles -->
     <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
     <div class="particle" style="left: 20%; animation-delay: 2s; background: #a855f7;"></div>
     <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
@@ -1514,11 +1344,45 @@
     <div class="particle" style="left: 80%; animation-delay: 5s; background: #a855f7;"></div>
     <div class="particle" style="left: 90%; animation-delay: 2.5s;"></div>
 
-    <!-- Main Content -->
     <div class="content">
         <nav>
-            <div class="logo">NYN Impact</div>
-            <button class="nav-contact" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Let's Talk</button>
+            <a href="#" class="logo">
+                <img src="logo.jpg" alt="NYN Impact" class="logo-img">
+            </a>
+            <div class="nav-right">
+                <div class="language-picker">
+                    <button class="language-btn" id="langBtn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="2" y1="12" x2="22" y2="12"/>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
+                        <span id="currentLang">EN</span>
+                        <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"/>
+                        </svg>
+                    </button>
+                    <div class="language-dropdown" id="langDropdown">
+                        <button class="lang-option active" data-lang="en" data-label="EN">
+                            <span class="lang-flag">🇺🇸</span>
+                            <span>English</span>
+                        </button>
+                        <button class="lang-option" data-lang="pt-br" data-label="PT">
+                            <span class="lang-flag">🇧🇷</span>
+                            <span>Português (Brasil)</span>
+                        </button>
+                        <button class="lang-option" data-lang="es-mx" data-label="ES">
+                            <span class="lang-flag">🇲🇽</span>
+                            <span>Español (México)</span>
+                        </button>
+                        <button class="lang-option" data-lang="vi" data-label="VI">
+                            <span class="lang-flag">🇻🇳</span>
+                            <span>Tiếng Việt</span>
+                        </button>
+                    </div>
+                </div>
+                <button class="nav-contact" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Let's Talk</button>
+            </div>
         </nav>
 
         <section class="hero">
@@ -1532,7 +1396,7 @@
             </h1>
             <p class="hero-subtitle">
                 We don't follow the playbook. We <strong>rewrite it</strong>. 
-                Where others copy, we create. 
+                Where others copy, we <strong>create</strong>. 
                 Where others automate, we <strong>elevate</strong>.
             </p>
             <div class="cta-group">
@@ -1597,7 +1461,6 @@
             </div>
         </section>
 
-        <!-- Process Section -->
         <section class="process-section" id="process">
             <div class="process-header">
                 <div class="section-label" style="justify-content: center;">How We Work</div>
@@ -1670,7 +1533,6 @@
             <p class="tagline-sub">Where precision meets personality</p>
         </section>
 
-        <!-- Educator's Advantage Section -->
         <section class="advantage-section">
             <div class="advantage-content">
                 <div class="advantage-visual">
@@ -1732,7 +1594,6 @@
             </div>
         </section>
 
-        <!-- FAQ Section -->
         <section class="faq-section" id="faq">
             <div class="faq-header">
                 <div class="section-label" style="justify-content: center;">Questions & Answers</div>
@@ -1814,7 +1675,6 @@
             </div>
         </section>
 
-        <!-- Contact Section -->
         <section class="contact-section" id="contact">
             <div class="contact-container">
                 <div class="contact-info">
@@ -1877,30 +1737,25 @@
         </section>
 
         <footer>
-            <div class="footer-logo">NYN Impact</div>
+            <a href="#" class="footer-logo">
+                <img src="logo.jpg" alt="NYN Impact" class="footer-logo-img">
+            </a>
             <div class="footer-text">© 2025 NYN Impact. All rights reserved.</div>
         </footer>
     </div>
 
     <script>
-        // Parallax effect for orbs on mouse move
         document.addEventListener('mousemove', (e) => {
             const orbs = document.querySelectorAll('.gradient-orb');
             const x = (e.clientX - window.innerWidth / 2) / 50;
             const y = (e.clientY - window.innerHeight / 2) / 50;
-            
             orbs.forEach((orb, index) => {
                 const factor = (index + 1) * 0.5;
                 orb.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
             });
         });
 
-        // Intersection Observer for scroll animations
-        const observerOptions = {
-            threshold: 0.2,
-            rootMargin: '0px'
-        };
-
+        const observerOptions = { threshold: 0.2, rootMargin: '0px' };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1917,7 +1772,6 @@
             observer.observe(el);
         });
 
-        // Staggered animation for process steps
         document.querySelectorAll('.process-step').forEach((el, index) => {
             el.style.opacity = '0';
             el.style.transform = 'translateX(-30px)';
@@ -1925,23 +1779,47 @@
             observer.observe(el);
         });
 
-        // FAQ Accordion
         document.querySelectorAll('.faq-question').forEach(button => {
             button.addEventListener('click', () => {
                 const faqItem = button.parentElement;
                 const isActive = faqItem.classList.contains('active');
-                
-                // Close all FAQ items
-                document.querySelectorAll('.faq-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-                
-                // Open clicked item if it wasn't active
-                if (!isActive) {
-                    faqItem.classList.add('active');
-                }
+                document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
+                if (!isActive) faqItem.classList.add('active');
             });
         });
+
+        const langBtn = document.getElementById('langBtn');
+        const langPicker = document.querySelector('.language-picker');
+        const langOptions = document.querySelectorAll('.lang-option');
+        const currentLang = document.getElementById('currentLang');
+
+        langBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            langPicker.classList.toggle('open');
+        });
+
+        langOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                langOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                currentLang.textContent = option.dataset.label;
+                langPicker.classList.remove('open');
+                localStorage.setItem('nyn-lang', option.dataset.lang);
+                console.log('Language changed to:', option.dataset.lang);
+            });
+        });
+
+        document.addEventListener('click', () => langPicker.classList.remove('open'));
+
+        const savedLang = localStorage.getItem('nyn-lang');
+        if (savedLang) {
+            const savedOption = document.querySelector(`[data-lang="${savedLang}"]`);
+            if (savedOption) {
+                langOptions.forEach(opt => opt.classList.remove('active'));
+                savedOption.classList.add('active');
+                currentLang.textContent = savedOption.dataset.label;
+            }
+        }
     </script>
 </body>
 </html>
