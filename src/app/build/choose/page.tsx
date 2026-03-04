@@ -12,12 +12,14 @@ interface SiteOption {
 }
 
 const generatingSteps = [
-  'Analyzing your business story...',
-  'Choosing colors and typography...',
-  'Designing the hero section...',
-  'Building out your services...',
-  'Crafting your brand story...',
-  'Adding the finishing touches...',
+  'Magic isn\'t easy...',
+  'Transmogrification in process...',
+  'Getting coffee... be right back',
+  'Teaching pixels to dance...',
+  'Arguing with fonts about who looks better...',
+  'Convincing the hero section it\'s a hero...',
+  'Almost there... the AI is admiring its own work...',
+  'Sprinkling the finishing dust...',
 ];
 
 export default function ChoosePage() {
