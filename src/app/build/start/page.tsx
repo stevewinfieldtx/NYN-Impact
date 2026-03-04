@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { MessageCircle, Send, Globe, Building2, Loader2, CheckCircle, Search, FileSearch, TrendingUp } from 'lucide-react';
+import { MessageCircle, Send, Globe, Building2, Loader2, CheckCircle, Search, FileSearch, TrendingUp, Zap } from 'lucide-react';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
@@ -14,6 +14,8 @@ export default function StartPage() {
   const [businessName, setBusinessName] = useState('');
   const [businessUrl, setBusinessUrl] = useState('');
   const [customerName, setCustomerName] = useState('');
+  const [testIndustry, setTestIndustry] = useState('');
+  const [skipping, setSkipping] = useState(false);
   const [phase, setPhase] = useState<'form' | 'interview' | 'complete'>('form');
 
   // Chat state
@@ -101,6 +103,35 @@ export default function StartPage() {
       setMessages([{ role: 'assistant', content: 'Could not connect to the server. Please check your connection and try again.' }]);
     } finally {
       setSending(false);
+    }
+  }
+
+  async function handleSkip(e: React.FormEvent) {
+    e.preventDefault();
+    if (!testIndustry.trim()) return;
+
+    const customerId = sessionStorage.getItem('nyn_customer_id');
+    if (!customerId) return;
+
+    setSkipping(true);
+    try {
+      const res = await fetch(`${API}/api/interview/skip`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ customerId, industry: testIndustry }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        sessionStorage.setItem('nyn_project_id', data.projectId);
+        window.location.href = '/build/choose';
+      } else {
+        alert(`Error: ${data.error}`);
+      }
+    } catch (err) {
+      console.error('Skip failed:', err);
+      alert('Could not connect to server');
+    } finally {
+      setSkipping(false);
     }
   }
 
@@ -279,6 +310,28 @@ export default function StartPage() {
             Start My Interview
           </button>
         </form>
+
+        {/* ── Test Mode ── */}
+        <div className="mt-10 pt-8 border-t border-white/5">
+          <p className="text-xs text-[#505060] uppercase tracking-wide text-center mb-4">Test Mode — Skip Interview</p>
+          <form onSubmit={handleSkip} className="flex gap-3">
+            <input
+              type="text"
+              value={testIndustry}
+              onChange={e => setTestIndustry(e.target.value)}
+              placeholder="Type an industry (golf, plumbing, restaurant, fitness, realestate)"
+              className="flex-1 px-4 py-3 bg-[#111118] border border-yellow-500/20 rounded-xl text-[#f0ede6] placeholder-[#505060] focus:outline-none focus:border-yellow-500/50 text-sm"
+            />
+            <button
+              type="submit"
+              disabled={skipping || !testIndustry.trim()}
+              className="px-4 py-3 bg-yellow-600 hover:bg-yellow-500 disabled:bg-yellow-600/30 rounded-xl transition-all disabled:cursor-not-allowed flex items-center gap-2 text-sm font-medium"
+            >
+              {skipping ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
+              Skip
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
