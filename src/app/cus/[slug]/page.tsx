@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { PenTool, ExternalLink, Clock, Globe, ChevronRight } from 'lucide-react';
+import { PenTool, ExternalLink, Clock, Globe, ChevronRight, Mail, ArrowRight, LogOut } from 'lucide-react';
 
 interface SiteInfo {
   id: string;
@@ -18,20 +18,87 @@ interface SiteInfo {
   last_edited: string | null;
 }
 
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
 export default function CustomerPortal({ params }: { params: Promise<{ slug: string }> }) {
   const [slug, setSlug] = useState('');
   const [sites, setSites] = useState<SiteInfo[]>([]);
   const [loading, setLoading] = useState(true);
-  const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+  const [verified, setVerified] = useState(false);
+  const [customerName, setCustomerName] = useState('');
+  const [email, setEmail] = useState('');
+  const [verifyError, setVerifyError] = useState('');
+  const [verifying, setVerifying] = useState(false);
 
   useEffect(() => {
     params.then(p => {
       setSlug(p.slug);
-      fetchSites(p.slug);
+      // Check if already verified in this session
+      const saved = sessionStorage.getItem(`nyn_verified_${p.slug}`);
+      if (saved) {
+        const data = JSON.parse(saved);
+        setCustomerName(data.name);
+        setVerified(true);
+        fetchSites(p.slug);
+      } else {
+        // Auto-verify if coming from the build flow (customer info already in session)
+        const buildName = sessionStorage.getItem('nyn_customer_name');
+        const buildId = sessionStorage.getItem('nyn_customer_id');
+        if (buildName && buildId) {
+          sessionStorage.setItem(`nyn_verified_${p.slug}`, JSON.stringify({ name: buildName, id: buildId }));
+          setCustomerName(buildName);
+          setVerified(true);
+          fetchSites(p.slug);
+        } else {
+          setLoading(false);
+        }
+      }
     });
   }, [params]);
 
+  async function handleVerify(e: React.FormEvent) {
+    e.preventDefault();
+    setVerifying(true);
+    setVerifyError('');
+
+    try {
+      const res = await fetch(`${API}/api/customer/${slug}/verify`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setVerifyError(data.error || 'Verification failed');
+        return;
+      }
+
+      // Save verification to session
+      sessionStorage.setItem(`nyn_verified_${slug}`, JSON.stringify({
+        name: data.customer.name,
+        id: data.customer.id,
+      }));
+      setCustomerName(data.customer.name);
+      setVerified(true);
+      fetchSites(slug);
+    } catch {
+      setVerifyError('Could not connect. Please try again.');
+    } finally {
+      setVerifying(false);
+    }
+  }
+
+  function handleLogout() {
+    sessionStorage.removeItem(`nyn_verified_${slug}`);
+    setVerified(false);
+    setSites([]);
+    setEmail('');
+    setCustomerName('');
+  }
+
   async function fetchSites(customerSlug: string) {
+    setLoading(true);
     try {
       const res = await fetch(`${API}/api/customer/${customerSlug}/sites`);
       if (res.ok) {
@@ -45,22 +112,84 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
     }
   }
 
+  // ─── Email gate ───
+  if (!verified) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0f] text-[#f0ede6] flex items-center justify-center px-6">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-10">
+            <div className="w-16 h-16 mx-auto mb-6 bg-purple-500/10 border-2 border-purple-500/30 rounded-2xl flex items-center justify-center">
+              <Mail className="w-8 h-8 text-purple-400" />
+            </div>
+            <h1 className="text-3xl font-bold mb-3" style={{ fontFamily: 'Fraunces, serif' }}>
+              Welcome to your portal
+            </h1>
+            <p className="text-[#a0a0b0]">
+              Enter the email associated with your account to access your sites.
+            </p>
+          </div>
+
+          <form onSubmit={handleVerify} className="space-y-5">
+            <div>
+              <label className="block text-sm text-[#a0a0b0] mb-1.5">Email Address</label>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="w-full px-4 py-3 bg-[#111118] border border-white/10 rounded-xl text-[#f0ede6] placeholder-[#505060] focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all"
+                placeholder="you@company.com"
+                autoFocus
+              />
+            </div>
+
+            {verifyError && (
+              <p className="text-red-400 text-sm text-center">{verifyError}</p>
+            )}
+
+            <button
+              type="submit"
+              disabled={verifying}
+              className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-xl text-base font-semibold transition-all disabled:opacity-50"
+            >
+              {verifying ? 'Verifying...' : 'Access My Sites'}
+              {!verifying && <ArrowRight className="w-4 h-4" />}
+            </button>
+          </form>
+
+          <p className="text-center text-[#505060] text-xs mt-6">
+            Use the email you signed up with. Need help? Contact us.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // ─── Portal (verified) ───
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-[#f0ede6]">
-      {/* Header */}
       <nav className="border-b border-white/5 bg-[#0a0a0f]/80 backdrop-blur-xl">
         <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
           <span className="text-xl font-semibold tracking-tight" style={{ fontFamily: 'Fraunces, serif' }}>
             NYN<span className="text-purple-400">Impact</span>
           </span>
-          <span className="text-sm text-[#a0a0b0]">Customer Portal</span>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-[#a0a0b0]">{customerName}</span>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 text-sm text-[#707080] hover:text-[#f0ede6] transition-colors"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              Sign out
+            </button>
+          </div>
         </div>
       </nav>
 
       <div className="max-w-5xl mx-auto px-6 py-12">
         <div className="mb-12">
           <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Fraunces, serif' }}>
-            Welcome back{slug ? `, ${decodeURIComponent(slug).replace(/-/g, ' ')}` : ''}
+            Welcome back, {customerName.split(' ')[0]}
           </h1>
           <p className="text-[#a0a0b0]">Manage and edit your websites below.</p>
         </div>
