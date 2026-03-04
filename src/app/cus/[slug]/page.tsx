@@ -27,6 +27,7 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
   const [verified, setVerified] = useState(false);
   const [customerName, setCustomerName] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [verifyError, setVerifyError] = useState('');
   const [verifying, setVerifying] = useState(false);
 
@@ -65,7 +66,7 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
       const res = await fetch(`${API}/api/customer/${slug}/verify`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
 
@@ -94,6 +95,7 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
     setVerified(false);
     setSites([]);
     setEmail('');
+    setPassword('');
     setCustomerName('');
   }
 
@@ -125,7 +127,7 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
               Welcome to your portal
             </h1>
             <p className="text-[#a0a0b0]">
-              Enter the email associated with your account to access your sites.
+              Sign in to access your sites.
             </p>
           </div>
 
@@ -143,6 +145,18 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
               />
             </div>
 
+            <div>
+              <label className="block text-sm text-[#a0a0b0] mb-1.5">Password</label>
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="w-full px-4 py-3 bg-[#111118] border border-white/10 rounded-xl text-[#f0ede6] placeholder-[#505060] focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all"
+                placeholder="Enter your password"
+              />
+            </div>
+
             {verifyError && (
               <p className="text-red-400 text-sm text-center">{verifyError}</p>
             )}
@@ -152,13 +166,13 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
               disabled={verifying}
               className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-xl text-base font-semibold transition-all disabled:opacity-50"
             >
-              {verifying ? 'Verifying...' : 'Access My Sites'}
+              {verifying ? 'Signing in...' : 'Sign In'}
               {!verifying && <ArrowRight className="w-4 h-4" />}
             </button>
           </form>
 
           <p className="text-center text-[#505060] text-xs mt-6">
-            Use the email you signed up with. Need help? Contact us.
+            Need help? Contact support@nynimpact.com
           </p>
         </div>
       </div>
