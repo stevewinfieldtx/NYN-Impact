@@ -34,7 +34,6 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
   useEffect(() => {
     params.then(p => {
       setSlug(p.slug);
-      // Check if already verified in this session
       const saved = sessionStorage.getItem(`nyn_verified_${p.slug}`);
       if (saved) {
         const data = JSON.parse(saved);
@@ -42,17 +41,7 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
         setVerified(true);
         fetchSites(p.slug);
       } else {
-        // Auto-verify if coming from the build flow (customer info already in session)
-        const buildName = sessionStorage.getItem('nyn_customer_name');
-        const buildId = sessionStorage.getItem('nyn_customer_id');
-        if (buildName && buildId) {
-          sessionStorage.setItem(`nyn_verified_${p.slug}`, JSON.stringify({ name: buildName, id: buildId }));
-          setCustomerName(buildName);
-          setVerified(true);
-          fetchSites(p.slug);
-        } else {
-          setLoading(false);
-        }
+        setLoading(false);
       }
     });
   }, [params]);
@@ -71,11 +60,10 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
       const data = await res.json();
 
       if (!res.ok) {
-        setVerifyError(data.error || 'Verification failed');
+        setVerifyError(data.error || 'Sign in failed');
         return;
       }
 
-      // Save verification to session
       sessionStorage.setItem(`nyn_verified_${slug}`, JSON.stringify({
         name: data.customer.name,
         id: data.customer.id,
@@ -114,7 +102,6 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
     }
   }
 
-  // ─── Email gate ───
   if (!verified) {
     return (
       <div className="min-h-screen bg-[#0a0a0f] text-[#f0ede6] flex items-center justify-center px-6">
@@ -179,7 +166,6 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
     );
   }
 
-  // ─── Portal (verified) ───
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-[#f0ede6]">
       <nav className="border-b border-white/5 bg-[#0a0a0f]/80 backdrop-blur-xl">
