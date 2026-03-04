@@ -93,9 +93,12 @@ export default function StartPage() {
         setProjectId(data.projectId);
         sessionStorage.setItem('nyn_project_id', data.projectId);
         setMessages([{ role: 'assistant', content: data.message }]);
+      } else {
+        setMessages([{ role: 'assistant', content: `Setup error: ${data.error || 'Could not start interview. Please try again.'}` }]);
       }
     } catch (err) {
       console.error('Interview start failed:', err);
+      setMessages([{ role: 'assistant', content: 'Could not connect to the server. Please check your connection and try again.' }]);
     } finally {
       setSending(false);
     }
@@ -122,10 +125,12 @@ export default function StartPage() {
         if (data.complete) {
           setPhase('complete');
         }
+      } else {
+        setMessages(prev => [...prev, { role: 'assistant', content: `Error: ${data.error || 'Something went wrong. Please try again.'}` }]);
       }
     } catch (err) {
       console.error('Message failed:', err);
-      setMessages(prev => [...prev, { role: 'assistant', content: "Sorry, something went wrong. Could you try that again?" }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: "Could not connect to the server. Please try again." }]);
     } finally {
       setSending(false);
     }
