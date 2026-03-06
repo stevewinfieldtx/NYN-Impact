@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { PenTool, ExternalLink, Clock, Globe, ChevronRight, Mail, ArrowRight, LogOut } from 'lucide-react';
+import { PenTool, ExternalLink, Clock, Globe, ChevronRight, Mail, ArrowRight, LogOut, Zap } from 'lucide-react';
 
 interface SiteInfo {
   id: string;
@@ -241,14 +241,23 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
                     </div>
                   </div>
 
-                  <Link
-                    href={`/cus/${slug}/edit?site=${site.id}`}
-                    className="flex items-center gap-2 px-5 py-2.5 bg-purple-600 hover:bg-purple-500 rounded-xl text-sm font-medium transition-all hover:shadow-lg hover:shadow-purple-500/20"
-                  >
-                    <PenTool className="w-4 h-4" />
-                    Edit Site
-                    <ChevronRight className="w-4 h-4" />
-                  </Link>
+                  <div className="flex items-center gap-2">
+                    <Link
+                      href={`/cus/${slug}/health?site=${site.id}`}
+                      className="flex items-center gap-1.5 px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-sm font-medium transition-all"
+                    >
+                      <Zap className="w-3.5 h-3.5 text-amber-400" />
+                      AI Health
+                    </Link>
+                    <Link
+                      href={`/cus/${slug}/edit?site=${site.id}`}
+                      className="flex items-center gap-2 px-5 py-2.5 bg-purple-600 hover:bg-purple-500 rounded-xl text-sm font-medium transition-all hover:shadow-lg hover:shadow-purple-500/20"
+                    >
+                      <PenTool className="w-4 h-4" />
+                      Edit Site
+                      <ChevronRight className="w-4 h-4" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}
