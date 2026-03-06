@@ -6,7 +6,7 @@ import { ArrowRight, Shield } from 'lucide-react';
 
 export default function BuildPage() {
   const router = useRouter();
-  const [form, setForm] = useState({ name: '', email: '', phone: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', confirmPassword: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -15,12 +15,18 @@ export default function BuildPage() {
     setLoading(true);
     setError('');
 
+    if (form.password !== form.confirmPassword) {
+      setError('Passwords do not match.');
+      setLoading(false);
+      return;
+    }
+
     try {
       const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
       const res = await fetch(`${API}/api/lead`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ name: form.name, email: form.email, phone: form.phone, password: form.password }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Something went wrong');
@@ -80,6 +86,38 @@ export default function BuildPage() {
               className="w-full px-4 py-3 bg-[#111118] border border-white/10 rounded-xl text-[#f0ede6] placeholder-[#505060] focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all"
               placeholder="(817) 555-1234"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm text-[#a0a0b0] mb-1.5">Create a Password</label>
+            <input
+              type="password"
+              required
+              minLength={8}
+              value={form.password}
+              onChange={e => setForm({ ...form, password: e.target.value })}
+              className="w-full px-4 py-3 bg-[#111118] border border-white/10 rounded-xl text-[#f0ede6] placeholder-[#505060] focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all"
+              placeholder="Min. 8 characters"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm text-[#a0a0b0] mb-1.5">Confirm Password</label>
+            <input
+              type="password"
+              required
+              value={form.confirmPassword}
+              onChange={e => setForm({ ...form, confirmPassword: e.target.value })}
+              className={`w-full px-4 py-3 bg-[#111118] border rounded-xl text-[#f0ede6] placeholder-[#505060] focus:outline-none focus:ring-1 transition-all ${
+                form.confirmPassword && form.password !== form.confirmPassword
+                  ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20'
+                  : 'border-white/10 focus:border-purple-500/50 focus:ring-purple-500/20'
+              }`}
+              placeholder="Repeat your password"
+            />
+            {form.confirmPassword && form.password !== form.confirmPassword && (
+              <p className="text-red-400 text-xs mt-1.5">Passwords don&apos;t match</p>
+            )}
           </div>
 
           {error && (

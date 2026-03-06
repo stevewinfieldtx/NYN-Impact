@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowRight, Mic, Search, Sparkles, PenTool, Globe } from 'lucide-react';
+import { ArrowRight, Mic, Search, Sparkles, PenTool, Globe, LogIn } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
@@ -13,10 +13,11 @@ export default function Home() {
             NYN<span className="text-purple-400">Impact</span>
           </span>
           <Link
-            href="/build"
-            className="px-5 py-2 bg-purple-600 hover:bg-purple-500 rounded-full text-sm font-medium transition-all hover:shadow-lg hover:shadow-purple-500/20"
+            href="/sign-in"
+            className="flex items-center gap-2 px-5 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-sm font-medium transition-all"
           >
-            Build My Website
+            <LogIn className="w-4 h-4 text-purple-400" />
+            Sign In
           </Link>
         </div>
       </nav>

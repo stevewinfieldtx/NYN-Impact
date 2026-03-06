@@ -108,8 +108,17 @@ export default function ChoosePage() {
 
       sessionStorage.setItem('nyn_selected_site_id', siteId);
 
+      // Auto-session them in — they just came through the full build process,
+      // no need to make them log in again
+      if (data.customer && data.slug) {
+        sessionStorage.setItem(`nyn_verified_${data.slug}`, JSON.stringify({
+          name: data.customer.name,
+          id: data.customer.id,
+        }));
+      }
+
       if (data.slug) {
-        router.push(`/cus/${data.slug}`);
+        router.push(`/cus/${data.slug}?welcome=1`);
       } else {
         setError('Site selected but no redirect URL found.');
       }

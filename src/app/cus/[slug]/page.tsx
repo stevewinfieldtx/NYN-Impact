@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { PenTool, ExternalLink, Clock, Globe, ChevronRight, Mail, ArrowRight, LogOut, Zap } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
+import { PenTool, ExternalLink, Clock, Globe, ChevronRight, Mail, ArrowRight, LogOut, Zap, PartyPopper } from 'lucide-react';
 
 interface SiteInfo {
   id: string;
@@ -21,6 +22,9 @@ interface SiteInfo {
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 export default function CustomerPortal({ params }: { params: Promise<{ slug: string }> }) {
+  const searchParams = useSearchParams();
+  const isWelcome = searchParams.get('welcome') === '1';
+
   const [slug, setSlug] = useState('');
   const [sites, setSites] = useState<SiteInfo[]>([]);
   const [loading, setLoading] = useState(true);
@@ -30,6 +34,7 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
   const [password, setPassword] = useState('');
   const [verifyError, setVerifyError] = useState('');
   const [verifying, setVerifying] = useState(false);
+  const [showWelcomeBanner, setShowWelcomeBanner] = useState(false);
 
   useEffect(() => {
     params.then(p => {
@@ -39,12 +44,13 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
         const data = JSON.parse(saved);
         setCustomerName(data.name);
         setVerified(true);
+        if (isWelcome) setShowWelcomeBanner(true);
         fetchSites(p.slug);
       } else {
         setLoading(false);
       }
     });
-  }, [params]);
+  }, [params, isWelcome]);
 
   async function handleVerify(e: React.FormEvent) {
     e.preventDefault();
@@ -85,6 +91,7 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
     setEmail('');
     setPassword('');
     setCustomerName('');
+    setShowWelcomeBanner(false);
   }
 
   async function fetchSites(customerSlug: string) {
@@ -102,6 +109,7 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
     }
   }
 
+  // ── Sign In Screen ──
   if (!verified) {
     return (
       <div className="min-h-screen bg-[#0a0a0f] text-[#f0ede6] flex items-center justify-center px-6">
@@ -114,7 +122,7 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
               Welcome to your portal
             </h1>
             <p className="text-[#a0a0b0]">
-              Sign in to access your sites.
+              Sign in to access and edit your website.
             </p>
           </div>
 
@@ -159,16 +167,20 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
           </form>
 
           <p className="text-center text-[#505060] text-xs mt-6">
-            Need help? Contact support@nynimpact.com
+            Need help?{' '}
+            <a href="mailto:support@nynimpact.com" className="text-purple-400 hover:text-purple-300 transition-colors">
+              support@nynimpact.com
+            </a>
           </p>
         </div>
       </div>
     );
   }
 
+  // ── Authenticated Portal ──
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-[#f0ede6]">
-      <nav className="border-b border-white/5 bg-[#0a0a0f]/80 backdrop-blur-xl">
+      <nav className="border-b border-white/5 bg-[#0a0a0f]/80 backdrop-blur-xl sticky top-0 z-10">
         <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
           <span className="text-xl font-semibold tracking-tight" style={{ fontFamily: 'Fraunces, serif' }}>
             NYN<span className="text-purple-400">Impact</span>
@@ -187,20 +199,56 @@ export default function CustomerPortal({ params }: { params: Promise<{ slug: str
       </nav>
 
       <div className="max-w-5xl mx-auto px-6 py-12">
+
+        {/* Welcome banner — shown only right after completing the build flow */}
+        {showWelcomeBanner && (
+          <div className="mb-8 bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30 rounded-2xl p-6 flex items-start gap-4">
+            <PartyPopper className="w-8 h-8 text-purple-400 shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <h2 className="text-lg font-bold text-[#f0ede6] mb-1">
+                Your site is live, {customerName.split(' ')[0]}! 🎉
+              </h2>
+              <p className="text-[#a0a0b0] text-sm mb-3">
+                This is your portal — bookmark this page. Come back anytime to update your website just by typing what you want changed. No developers. No waiting. No extra cost.
+              </p>
+              <div className="flex flex-wrap gap-4 text-xs text-emerald-400">
+                <span>✓ Edit any text or content</span>
+                <span>✓ Update photos &amp; images</span>
+                <span>✓ AI health scans &amp; auto-fixes</span>
+                <span>✓ Changes go live in seconds</span>
+              </div>
+            </div>
+            <button
+              onClick={() => setShowWelcomeBanner(false)}
+              className="text-[#505060] hover:text-[#f0ede6] text-xl leading-none transition-colors shrink-0"
+            >
+              ×
+            </button>
+          </div>
+        )}
+
+        {/* Header */}
         <div className="mb-12">
           <h1 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Fraunces, serif' }}>
-            Welcome back, {customerName.split(' ')[0]}
+            {showWelcomeBanner
+              ? `You're live, ${customerName.split(' ')[0]}!`
+              : `Welcome back, ${customerName.split(' ')[0]}`}
           </h1>
-          <p className="text-[#a0a0b0]">Manage and edit your websites below.</p>
+          <p className="text-[#a0a0b0]">
+            {showWelcomeBanner
+              ? 'Your website is built. Edit it anytime — just type what you want changed.'
+              : 'Manage and edit your websites below.'}
+          </p>
         </div>
 
+        {/* Sites */}
         {loading ? (
           <div className="text-center py-20 text-[#505060]">Loading your sites...</div>
         ) : sites.length === 0 ? (
           <div className="text-center py-20">
             <Globe className="w-12 h-12 text-[#505060] mx-auto mb-4" />
             <p className="text-[#a0a0b0] mb-2">No sites yet</p>
-            <p className="text-[#505060] text-sm">Your websites will appear here once they&apos;re built.</p>
+            <p className="text-[#505060] text-sm">Your website will appear here once it&apos;s built.</p>
           </div>
         ) : (
           <div className="grid gap-6">
