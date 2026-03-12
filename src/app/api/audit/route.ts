@@ -18,17 +18,17 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const msg = `AUDIT THIS WEBSITE — speak directly TO the prospect using "you" and their company name:
+    const msg = `PRODUCE AN OBJECTIVE THIRD-PARTY AUDIT — refer to the company by name, never use "you" or "your":
 URL: ${url}
 Content:
 ${(pageContent || "").substring(0, 10000)}
 
-BUYER PERSONA:
+BUYER PERSONA FOR EVALUATION:
 ${persona || "Infer from site content."}
 
 ${benchSection}
 
-Produce JSON. Address the prospect directly throughout — "you", "your", their company name. Revenue focus. One benchmark_comparisons entry per benchmark.`;
+Produce JSON. Use the company's actual name throughout. Third-person analyst voice. Every finding tied to revenue. One benchmark_comparisons entry per benchmark.`;
 
     const result = await askLLM(AUDIT_SYSTEM, msg, 8000);
     const report = extractJSON(result);
