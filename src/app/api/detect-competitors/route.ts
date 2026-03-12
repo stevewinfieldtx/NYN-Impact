@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { askLLM } from '@/lib/openrouter';
-import { COMPETITORS_SYSTEM } from '@/lib/audit-prompts';
+import { BENCHMARKS_SYSTEM } from '@/lib/audit-prompts';
 
 export async function POST(req: NextRequest) {
   try {
@@ -8,12 +8,12 @@ export async function POST(req: NextRequest) {
     if (!url) return NextResponse.json({ error: "URL required" }, { status: 400 });
 
     const result = await askLLM(
-      COMPETITORS_SYSTEM,
-      `Find 3 competitors for: ${url}${industry ? `\nIndustry: ${industry}` : ""}`
+      BENCHMARKS_SYSTEM,
+      `Find the 3 best-in-class websites (or social media presences) for a business like: ${url}${industry ? `\nIndustry: ${industry}` : ""}\n\nThese should be the gold standard — the best online presences in this category from anywhere in the world. If the best examples use Facebook or Instagram instead of a website, include those URLs.`
     );
 
     const lines = result.trim().split("\n").filter((l: string) => l.includes("|")).slice(0, 3);
-    const competitors = lines.map((line: string) => {
+    const benchmarks = lines.map((line: string) => {
       const parts = line.split("|").map((p: string) => p.trim());
       const urlMatch = (parts[0] || "").match(/https?:\/\/[^\s]+/);
       return {
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
       };
     });
 
-    return NextResponse.json({ competitors });
+    return NextResponse.json({ competitors: benchmarks });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unknown error";
     return NextResponse.json({ error: message }, { status: 500 });
