@@ -86,7 +86,8 @@ export default function EditPage({ params }: { params: Promise<{ slug: string }>
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const previewUrl = siteId ? `${API}/api/render/${siteId}` : '';
+  // Use the live site URL for preview if available, otherwise fall back to template render
+  const previewUrl = siteUrl || (siteId ? `${API}/api/render/${siteId}` : '');
 
   async function fetchSiteInfo() {
     try {
@@ -411,4 +412,6 @@ export default function EditPage({ params }: { params: Promise<{ slug: string }>
     </div>
   );
 }
+
+
 
