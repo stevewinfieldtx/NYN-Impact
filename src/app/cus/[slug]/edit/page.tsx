@@ -87,7 +87,9 @@ export default function EditPage({ params }: { params: Promise<{ slug: string }>
   }, [messages]);
 
   // Use the live site URL for preview if available, otherwise fall back to template render
-  const previewUrl = siteUrl || (siteId ? `${API}/api/render/${siteId}` : '');
+  // Don't set previewUrl until fetchSiteInfo has had a chance to load siteUrl
+  const [siteInfoLoaded, setSiteInfoLoaded] = useState(false);
+  const previewUrl = siteInfoLoaded ? (siteUrl || (siteId ? `${API}/api/render/${siteId}` : '')) : '';
 
   async function fetchSiteInfo() {
     try {
@@ -99,6 +101,8 @@ export default function EditPage({ params }: { params: Promise<{ slug: string }>
       }
     } catch (err) {
       console.error('Failed to fetch site info:', err);
+    } finally {
+      setSiteInfoLoaded(true);
     }
   }
 
